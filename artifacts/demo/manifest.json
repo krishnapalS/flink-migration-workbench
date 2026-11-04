@@ -1,0 +1,17 @@
+{
+  "ruleset": "bounded-relational-v1",
+  "ir_sha256": "15c9de55ffe7783a49a752a7109edf47514c8db34caf6aae8b332c2ae09ac635",
+  "sql_sha256": "abae3dcf021ed6f58e59b4a9ac73765725dc59c743cd5558c54f1fe148eb6714",
+  "status": "compiled_not_approved",
+  "required_gates": [
+    "source_semantics_review",
+    "flink_runtime_test",
+    "reconciliation",
+    "human_approval"
+  ],
+  "limitations": [
+    "bounded only",
+    "no connector deployment",
+    "no production export certification"
+  ]
+}

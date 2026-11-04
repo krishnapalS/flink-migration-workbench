@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POWERMART><REPOSITORY NAME="synthetic"><FOLDER NAME="demo">
+<MAPPING NAME="eligible_orders">
+<SOURCE NAME="orders"><SOURCEFIELD NAME="id" DATATYPE="bigint" NULLABLE="NO"/><SOURCEFIELD NAME="amount" DATATYPE="decimal(18,2)" NULLABLE="YES"/><SOURCEFIELD NAME="region" DATATYPE="string" NULLABLE="YES"/></SOURCE>
+<TARGET NAME="eligible"><TARGETFIELD NAME="id" DATATYPE="bigint" NULLABLE="NO"/><TARGETFIELD NAME="amount" DATATYPE="decimal(18,2)" NULLABLE="YES"/><TARGETFIELD NAME="region" DATATYPE="string" NULLABLE="YES"/></TARGET>
+<TRANSFORMATION NAME="minimum_order" TYPE="Filter"><TABLEATTRIBUTE NAME="Filter Condition" VALUE="amount &gt;= 100.00"/></TRANSFORMATION>
+<CONNECTOR FROMINSTANCE="orders" FROMFIELD="id" TOINSTANCE="minimum_order" TOFIELD="id"/>
+<CONNECTOR FROMINSTANCE="orders" FROMFIELD="amount" TOINSTANCE="minimum_order" TOFIELD="amount"/>
+<CONNECTOR FROMINSTANCE="orders" FROMFIELD="region" TOINSTANCE="minimum_order" TOFIELD="region"/>
+<CONNECTOR FROMINSTANCE="minimum_order" FROMFIELD="id" TOINSTANCE="eligible" TOFIELD="id"/>
+<CONNECTOR FROMINSTANCE="minimum_order" FROMFIELD="amount" TOINSTANCE="eligible" TOFIELD="amount"/>
+<CONNECTOR FROMINSTANCE="minimum_order" FROMFIELD="region" TOINSTANCE="eligible" TOFIELD="region"/>
+</MAPPING></FOLDER></REPOSITORY></POWERMART>

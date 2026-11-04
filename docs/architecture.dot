@@ -1,0 +1,22 @@
+digraph architecture {
+ graph [rankdir=TB, bgcolor="white", pad="0.35", nodesep="0.4", ranksep="0.55", fontname="DejaVu Sans", label="Flink migration workbench | proposed production architecture", labelloc=t, fontsize=22];
+ node [shape=box, style="rounded,filled", fillcolor="#f4efec", color="#c0bebf", fontname="DejaVu Sans", fontsize=13, margin="0.2,0.12"];
+ edge [fontname="DejaVu Sans", fontsize=10, color="#585254"];
+ subgraph cluster_source {label="CLIENT BOUNDARY";color="#eae9ea";s [label="PowerCenter | BDM/DEI | IDMC\nRead-only versioned export collectors"]; data [label="Business sources\nDB / queue / file / API"];}
+ store [label="S3 immutable artifacts\nExports / IR / evidence", fillcolor="#dcece6"];
+ parse [label="Product adapters + inventory\nDependency graph / provenance / unknowns"];
+ ir [label="Typed canonical IR\nSemantic contract + capability matrix",fillcolor="#dcece6"];
+ rules [label="Deterministic rules\nKnown supported semantics"];
+ model [label="Optional model proposals\nAuthorized examples / explicit assumptions"];
+ check [label="Shared validation gates\nTypes / compile / differential tests / evals"];
+ people [label="Human review + release approval\nHash-bound evidence / loss report",fillcolor="#dcece6"];
+ pg [label="PostgreSQL control plane\nVersions / jobs / approvals / outcomes"];
+ learn [label="Approved learning loop\nCounterexamples -> regression -> rules"];
+ flink [label="CLIENT AWS DATA PLANE\nEKS + Flink Operator / SQL or Java jobs\nS3 checkpoints + savepoints / workload IAM",fillcolor="#dcece6"];
+ sink [label="Isolated shadow sinks -> approved serving sinks\nReconciliation / drift / rollback boundary"];
+ s->store;store->parse;parse->ir;ir->rules;ir->model [label="policy permits only"];
+ rules->check;model->check [label="proposal only"];check->people;people->flink;
+ data->flink [label="runtime connectors",style=dashed];flink->sink;
+ pg->parse [style=dashed,dir=both];pg->people [style=dashed,dir=both];
+ check->learn;people->learn;learn->rules [label="reviewed promotion",style=dashed];
+}

@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "name": "eligible_orders",
+  "source": "orders",
+  "fields": [
+    {
+      "name": "id",
+      "type": "BIGINT",
+      "nullable": false
+    },
+    {
+      "name": "amount",
+      "type": "DECIMAL(18,2)",
+      "nullable": true
+    },
+    {
+      "name": "region",
+      "type": "STRING",
+      "nullable": true
+    }
+  ],
+  "select": [
+    {
+      "as": "id",
+      "expr": {
+        "field": "id"
+      }
+    },
+    {
+      "as": "amount",
+      "expr": {
+        "field": "amount"
+      }
+    },
+    {
+      "as": "region",
+      "expr": {
+        "field": "region"
+      }
+    }
+  ],
+  "where": {
+    "op": "ge",
+    "left": {
+      "field": "amount"
+    },
+    "right": {
+      "literal": "100.00",
+      "type": "DECIMAL(18,2)"
+    }
+  },
+  "semantics": {
+    "mode": "bounded",
+    "nulls": "sql",
+    "ordering": "unordered",
+    "duplicates": "preserve"
+  }
+}

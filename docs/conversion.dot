@@ -1,0 +1,20 @@
+digraph conversion {
+ graph [rankdir=TB,bgcolor="white",pad="0.3",ranksep="0.4",fontname="DejaVu Sans",label="Conversion gates | models propose, evidence decides",labelloc=t,fontsize=20];
+ node [shape=box,style="rounded,filled",fillcolor="#f4efec",color="#c0bebf",fontname="DejaVu Sans",fontsize=13,margin="0.2,0.12"];
+ edge [fontname="DejaVu Sans",fontsize=11,color="#585254"];
+ input [label="Immutable snapshot + complete dependencies"];
+ ir [label="Parse -> typed IR -> capability checks"];
+ known [shape=diamond,label="Supported by\napproved rule?"];
+ rules [label="Deterministic conversion"];
+ policy [shape=diamond,label="Models allowed?"];
+ proposal [label="Constrained proposal + cited source nodes"];
+ manual [label="Manual translation / semantic clarification"];
+ gates [label="Type + compile + reference execution\nReconciliation + mutation + operational tests"];
+ pass [shape=diamond,label="Evidence passes?"];
+ review [label="Human semantic + release approval",fillcolor="#dcece6"];
+ deploy [label="Shadow -> compare -> cutover -> observe",fillcolor="#dcece6"];
+ fail [label="Block / preserve failure evidence\nNo automatic promotion",fillcolor="#fae5e5"];
+ input->ir;ir->known;known->rules [label="yes"];known->policy [label="no"];
+ policy->proposal [label="yes"];policy->manual [label="no"];proposal->gates;manual->gates;rules->gates;
+ gates->pass;pass->review [label="yes"];pass->fail [label="no"];review->deploy;
+}
